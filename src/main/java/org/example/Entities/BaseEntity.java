@@ -1,4 +1,4 @@
-package Entities;
+package org.example.Entities;
 
 import jakarta.persistence.MappedSuperclass;
 
@@ -9,4 +9,8 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    BaseEntity(){
+        createdAt = LocalDateTime.now();
+    }
 }
