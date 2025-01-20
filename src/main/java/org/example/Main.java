@@ -45,7 +45,7 @@ public class Main {
 
 
         User user = HibernateUtil.find(1, User.class);
-//        List<Address> res = null;
+        List<User> res = HibernateUtil.getEntitiesByLastName("Drago");
 //        try(Session session = HibernateUtil.setUp().openSession()) {
 //            List<Address> result = session.createSelectionQuery("from Address", Address.class).list();
 ////            result.forEach(System.out::println);

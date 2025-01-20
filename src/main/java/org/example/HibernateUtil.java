@@ -78,7 +78,9 @@ public class HibernateUtil {
         List<User> result = null;
         try (Session session = setUp().openSession()) {
 //            String query = String.format("from User where lastName=" + lastName + "\"");
-            result = session.createQuery("from User where lastName=?").list();
+            result = session.createQuery("from User where lastName=?1", User.class)
+                    .setParameter(1, lastName)
+                    .list();
         } catch (Exception e) {
             e.printStackTrace();
         }
