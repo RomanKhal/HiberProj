@@ -13,14 +13,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.schema.Action;
+import org.hibernate.tool.schema.SourceType;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class HibernateUtil {
@@ -49,28 +47,35 @@ public class HibernateUtil {
     }
 
     public static void saveEntity(BaseEntity o) {
-        try (Session session = setUp().openSession()) {
-            Transaction transaction = session.beginTransaction();
+        Session session = null;
+        try {
+            session = setUp().openSession();
+            session.getTransaction().begin();
             session.persist(o);
-            transaction.commit();
+            session.getTransaction().commit();
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            Objects.requireNonNull(session).close();
         }
     }
-    public static User find(int id, Class<? extends BaseEntity> clazz){
-        User result = null;
+
+    public static <clazz> clazz find(int id, Class<? extends BaseEntity> clazz){
+        clazz result = null;
         String table = clazz.getSimpleName();
         try(Session session = setUp().openSession()) {
             session.getTransaction().begin();
-            result = session.createSelectionQuery("from ?1 where id=?2", User.class)
-                    .setParameter(1, table)
-                    .setParameter(2, id)
+            System.out.println("t begin");
+            result = (clazz) session.createSelectionQuery("from " + table + " where id=?1", clazz)
+                    .setParameter(1, id)
                     .getSingleResult();
             session.getTransaction().commit();
+            System.out.println("t end");
         }
         catch (Exception e){
+            e.printStackTrace();
         }
-        System.out.println(table);
         return result;
     }
 

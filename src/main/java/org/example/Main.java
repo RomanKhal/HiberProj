@@ -45,21 +45,7 @@ public class Main {
 
 
         User user = HibernateUtil.find(1, User.class);
-        List<User> res = HibernateUtil.getEntitiesByLastName("Drago");
-//        try(Session session = HibernateUtil.setUp().openSession()) {
-//            List<Address> result = session.createSelectionQuery("from Address", Address.class).list();
-////            result.forEach(System.out::println);
-//            res = result;
-//            session.getTransaction().commit();
-//        }
-//        catch (Exception e){
-//        }
-//        try {
-//            user.getAddress();
-//        } catch (Exception e) {
-//        System.exit(0);
-//        }
-
+        System.out.println(user.getAddress());
 
 //        List<User> drago = HibernateUtil.getEntitiesByLastName("Drago");
 //        drago.forEach(System.out::println);
