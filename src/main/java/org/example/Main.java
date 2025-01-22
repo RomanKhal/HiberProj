@@ -33,21 +33,51 @@ public class Main {
         u2.setBirthday(LocalDate.of(1969, 1, 20));
 
         Address a1 = new Address();
-        a1.setCity("MSk");
-        a1.setStreet("Nikitskaya");
-        a1.setHouseNumber(2);
+        a1.setAddressDetails("Msk", "Nikitskaya", 2, 11);
 
+
+        HibernateUtil.saveEntity(a1);
         u1.setAddress(a1);
         u2.setAddress(a1);
-        HibernateUtil.saveEntity(a1);
         HibernateUtil.saveEntity(u1);
         HibernateUtil.saveEntity(u2);
 
 
-        User user = HibernateUtil.find(1, User.class);
-        System.out.println(user.getAddress());
+//        User user = HibernateUtil.find(1, User.class);
+//        System.out.println(user.getFirstName()+ " " + user.getUpdatedAt());
+//
+//        try {
+//            System.out.println("main transact start");
+//            Session s = HibernateUtil.setUp().openSession();
+//            s.getTransaction().begin();
+//            System.out.println(user.getFirstName()+ " " + user.getUpdatedAt());
+//            user.setFirstName("Borya");
+//
+//            System.out.println(user.getFirstName()+ " " + user.getUpdatedAt());
+////            Thread.sleep(3000);
+//            s.getTransaction().commit();
+//            System.out.println("main transact finish");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(user.getUpdatedAt());
+//
+//        User u3 = HibernateUtil.find(1, User.class);
 
-//        List<User> drago = HibernateUtil.getEntitiesByLastName("Drago");
-//        drago.forEach(System.out::println);
+//        System.out.println(user.getFirstName() + " " + user.getUpdatedAt());
+
+
+
+        try {
+            Session s = HibernateUtil.setUp().openSession();
+            s.getTransaction().begin();
+            s.remove(u2);
+            s.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Address adr = HibernateUtil.find(1, Address.class);
+        List<User> users = adr.getUsers();
+
     }
 }

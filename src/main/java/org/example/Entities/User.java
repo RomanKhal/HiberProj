@@ -1,6 +1,8 @@
 package org.example.Entities;
 
 import jakarta.persistence.*;
+import org.example.Listeners.BaseEntityListener;
+
 import java.time.LocalDate;
 
 @Entity
@@ -18,15 +20,10 @@ public class User extends BaseEntity {
     @Temporal(TemporalType.DATE)
     @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
-//    @OneToMany
-//    private List<User> children;
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
-    public User(){
-        super();
-    }
 
     public Long getId() {
         return id;

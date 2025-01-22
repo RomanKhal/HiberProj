@@ -1,6 +1,7 @@
 package org.example.Entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,78 +12,78 @@ public class Address extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String city;
-    @Column(nullable = false)
-    private String street;
-    @Column(nullable = false)
-    private int houseNumber;
-    @Column(nullable = false)
-    private int apartNumber;
-    @OneToMany(mappedBy = "address")
-    private List<User> users = new ArrayList<>();
+    AddressDetails addressDetails;
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
+    private List<User> users;
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
-    public Address(){
-        super();
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setHouseNumber(int houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public void setApartNumber(int apartNumber) {
-        this.apartNumber = apartNumber;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public List<User> getUsers() {
+        return users;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getCity() {
-        return city;
+    public AddressDetails getAddressDetails() {
+        return addressDetails;
     }
 
-    public String getStreet() {
-        return street;
+    public void setAddressDetails(String city, String street, int houseNumber, int apartNumber) {
+        this.addressDetails = new AddressDetails(city, street, houseNumber, apartNumber);
     }
 
-    public int getHouseNumber() {
-        return houseNumber;
-    }
+    @Embeddable
+     static class AddressDetails {
+        @Basic(optional = false)
+        private String city;
+        @Basic(optional = false)
+        private String street;
+        @Basic(optional = false)
+        private int houseNumber;
+        @Basic(optional = false)
+        private int apartNumber;
 
-    public int getApartNumber() {
-        return apartNumber;
-    }
+        public String getCity() {
+            return city;
+        }
 
-    public List<User> getUsers() {
-        return users;
-    }
+        public void setCity(String city) {
+            this.city = city;
+        }
 
-//    @Override
-//    public String toString() {
-//        return "Address{" +
-//                "id=" + id +
-//                ", city='" + city + '\'' +
-//                ", street='" + street + '\'' +
-//                ", houseNumber=" + houseNumber +
-//                ", apartNumber=" + apartNumber +
-//                ", users=" + users +
-//                '}';
-//    }
+        public String getStreet() {
+            return street;
+        }
+
+        public void setStreet(String street) {
+            this.street = street;
+        }
+
+        public int getHouseNumber() {
+            return houseNumber;
+        }
+
+        public void setHouseNumber(int houseNumber) {
+            this.houseNumber = houseNumber;
+        }
+
+        public int getApartNumber() {
+            return apartNumber;
+        }
+
+        public void setApartNumber(int apartNumber) {
+            this.apartNumber = apartNumber;
+        }
+
+        AddressDetails(){}
+
+        AddressDetails(String city, String street, int houseNumber, int apartNumber) {
+            this.city = city;
+            this.street = street;
+            this.houseNumber = houseNumber;
+            this.apartNumber = apartNumber;
+        }
+    }
 }
