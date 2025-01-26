@@ -9,6 +9,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import java.util.*;
 
+
+/*тестовый класс настройки Hibrenate.SessionFactory вместо
+JPA.EntityManager (этот способ более гибкий, позволяет использовать разные имплементации JPA)*/
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
