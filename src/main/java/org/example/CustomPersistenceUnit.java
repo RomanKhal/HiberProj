@@ -16,7 +16,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     private String jdbsUrl = null;
 
-    public void setJdbsUrl (String str) {
+    public void setJdbsUrl(String str) {
         this.jdbsUrl = str;
     }
 
@@ -37,12 +37,17 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     @Override
     public DataSource getJtaDataSource() {
-//        HikariDataSource dataSource = new HikariDataSource();
-//        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
-//        dataSource.setUsername("postgres");
-//        dataSource.setPassword("1234");
-//        return dataSource;
-        return null;
+        HikariDataSource dataSource = new HikariDataSource();
+        if (jdbsUrl == null) {
+            dataSource.setJdbcUrl("jdbc:h2:mem:test");
+            dataSource.setUsername("sa");
+            dataSource.setPassword("");
+        } else {
+            dataSource.setJdbcUrl(jdbsUrl);
+            dataSource.setUsername("postgres");
+            dataSource.setPassword("1234");
+        }
+        return dataSource;
     }
 
     @Override
@@ -67,7 +72,7 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     @Override
     public List<String> getManagedClassNames() {
-        return List.of();
+        return List.of("org.example.Entities.User", "org.example.Entities.Address");
     }
 
     @Override

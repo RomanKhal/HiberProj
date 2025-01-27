@@ -14,20 +14,35 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-
+        String jdbcUrl = "jdbc:postgresql://localhost:5432/postgres";
         CustomPersistenceUnit persistenceUnit = new CustomPersistenceUnit();
+//        persistenceUnit.setJdbsUrl(jdbcUrl);
         EntityManagerFactory emf = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(persistenceUnit, new HashMap());
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        System.out.println("begin Em transaction");
 
-        System.out.printf("transaction is open %b\n", em.isOpen());
+        User u1 = new User();
+        u1.setFirstName("Ivan");
+        u1.setLastName("Drago");
+        u1.setBirthday(LocalDate.of(1999, 1, 20));
+        em.persist(u1);
 
         em.getTransaction().commit();
-        System.out.println("end Em transaction");
-        em.getTransaction()
+        em.close();
         System.out.printf("transaction is open %b\n", em.isOpen());
+
+        User u2 = new User();
+        u2.setFirstName("Boris");
+        u2.setLastName("Poopa");
+        u2.setBirthday(LocalDate.of(1998, 2, 10));
+        u2.setId(1L);
+
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(u2);
+        em.getTransaction().commit();
+        em.close();
 
 //        User u1 = new User();
 //        User u2 = new User();
