@@ -13,17 +13,12 @@ public class Address extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     AddressDetails addressDetails;
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "address")
     private List<User> users;
 
 
     public List<User> getUsers() {
         return users;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public AddressDetails getAddressDetails() {
