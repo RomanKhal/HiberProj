@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "baseGenerator")
+    @SequenceGenerator(name = "baseGenerator")
     private long id;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

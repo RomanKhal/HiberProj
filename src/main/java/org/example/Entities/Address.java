@@ -29,6 +29,14 @@ public class Address extends BaseEntity {
         this.addressDetails = new AddressDetails(city, street, houseNumber, apartNumber);
     }
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", addressDetails=" + addressDetails +
+                '}';
+    }
+
     @Embeddable
      static class AddressDetails {
         @Basic(optional = false)
@@ -79,6 +87,16 @@ public class Address extends BaseEntity {
             this.street = street;
             this.houseNumber = houseNumber;
             this.apartNumber = apartNumber;
+        }
+
+        @Override
+        public String toString() {
+            return "AddressDetails{" +
+                    "city='" + city + '\'' +
+                    ", street='" + street + '\'' +
+                    ", houseNumber=" + houseNumber +
+                    ", apartNumber=" + apartNumber +
+                    '}';
         }
     }
 }
